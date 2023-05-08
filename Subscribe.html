@@ -1,0 +1,86 @@
+<form
+  class="dzSubscribe"
+  id="Newsletter"
+  name="Newsletter"
+  action="#"
+  method="post"
+>
+  <div class="dzSubscribeMsg"></div>
+  <div class="form-group">
+    <div class="input-group shadow">
+      <input
+        name="dzeamil"
+        required
+        id="form_dzemail"
+        type="email"
+        class="form-control"
+        placeholder="Your Email Address"
+      />
+      <span class="error_form" id="dzemail_error_message"></span>
+      <div class="input-group-addon">
+        <button
+          name="submit"
+          value="Submit"
+          type="submit"
+          class="btn btn-primary"
+        >
+          <i class="las la-paper-plane scale4"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<script>
+  const scriptURL =
+    "https://script.google.com/macros/s/AKfycbyDcQOfZgp6gHthflTNaupIGcm5OfYPKXG6BJ2vt5zscdhQARFevdIuKEXhmZrizUo7/exec";
+  const form = document.forms["Newsletter"];
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    fetch(scriptURL, { method: "POST", body: new FormData(form) })
+      .then((response) =>
+        alert("🎉🎉Thank you for submitting your information!🎉🎉.")
+      )
+      .catch((error) => console.error("Error!", error.message));
+  });
+</script>
+
+<script type="text/javascript">
+  $(function () {
+    $("#dzemail_error_message").hide();
+
+    var error_dzemail = false;
+
+    $("#form_dzemail").focusout(function () {
+      check_dzemail();
+    });
+
+    function check_dzemail() {
+      var pattern = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+      var dzemail = $("#form_dzemail").val();
+      if (pattern.test(dzemail) && dzemail !== "") {
+        $("#dzemail_error_message").hide();
+        $("#form_dzemail").css("border-bottom", "2px solid #34F458");
+      } else {
+        $("#dzemail_error_message").html(alert("email must be filled out"));
+        $("#dzemail_error_message").show();
+        $("#form_dzemail").css("border-bottom", "2px solid #F90A0A");
+        error_dzemail = true;
+      }
+    }
+
+    $("#Newsletter").submit(function () {
+      error_dzemail = false;
+
+      check_dzemail();
+      if (error_dzemail === false) {
+        alert("your eamil sent successfully.");
+        return true;
+      } else {
+        alert("your eamil not sent.");
+        return false;
+      }
+    });
+  });
+</script>
